@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PropBillion · Project Mapping Form</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,700&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#10231b; --ink-soft:#3c5147; --paper:#f6f4ee; --card:#fff;
+    --emerald:#005544; --deep:#0f3d2e; --gold:#b8862f; --line:#e3ded3;
+    --err:#c0392b; --shadow:0 1px 2px rgba(16,35,27,.05),0 8px 28px rgba(16,35,27,.07);
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{-webkit-text-size-adjust:100%}
+  body{font-family:'DM Sans',sans-serif;background:var(--paper);color:var(--ink);line-height:1.5;
+    background-image:radial-gradient(circle at 1px 1px,rgba(16,35,27,.04) 1px,transparent 0);background-size:22px 22px;}
+  .wrap{max-width:680px;margin:0 auto;padding:0 16px 120px}
+
+  header{padding:28px 0 20px;border-bottom:1px solid var(--line);margin-bottom:20px}
+  .mark{font-family:'Fraunces',serif;font-weight:700;font-size:12px;letter-spacing:.3em;text-transform:uppercase;
+    color:var(--emerald);border:1px solid var(--emerald);padding:5px 11px;border-radius:3px;display:inline-block}
+  h1{font-family:'Fraunces',serif;font-weight:600;font-size:clamp(26px,7vw,38px);line-height:1.05;margin:16px 0 8px}
+  h1 em{font-style:italic;color:var(--emerald)}
+  .lead{font-size:14px;color:var(--ink-soft);max-width:560px}
+  .note{margin-top:14px;background:#fbfaf6;border:1px solid var(--line);border-left:4px solid var(--gold);
+    border-radius:8px;padding:11px 14px;font-size:12.5px;color:var(--ink-soft)}
+  .note b{color:var(--ink)}
+
+  .section{background:var(--card);border:1px solid var(--line);border-radius:14px;box-shadow:var(--shadow);
+    margin-bottom:18px;overflow:hidden}
+  .section-head{padding:14px 18px;border-bottom:1px solid var(--line);display:flex;align-items:center;gap:10px}
+  .section-head .num{font-family:'Fraunces',serif;font-weight:700;font-size:13px;color:#fff;background:var(--emerald);
+    width:26px;height:26px;border-radius:50%;display:grid;place-items:center;flex-shrink:0}
+  .section-head h2{font-family:'Fraunces',serif;font-weight:600;font-size:17px}
+  .section.rate .section-head{background:linear-gradient(90deg,#fff,#fbf6ea)}
+  .section.rate .section-head .num{background:var(--gold)}
+  .section.rate{border-color:var(--gold)}
+  .section-body{padding:8px 18px 16px}
+
+  .field{padding:12px 0;border-bottom:1px dashed var(--line)}
+  .field:last-child{border-bottom:0}
+  label{display:block;font-size:13.5px;font-weight:600;margin-bottom:7px;color:var(--ink)}
+  label .q{color:var(--ink-soft);font-weight:500;font-size:12px;display:block;margin-top:2px}
+  label .star{color:var(--err);margin-left:2px}
+  input,select,textarea{width:100%;border:1px solid var(--line);background:#fff;border-radius:9px;
+    padding:11px 13px;font:inherit;font-size:15px;color:var(--ink)}
+  input:focus,select:focus,textarea:focus{outline:none;border-color:var(--emerald);box-shadow:0 0 0 3px rgba(0,85,68,.1)}
+  textarea{resize:vertical;min-height:60px}
+  .field.invalid input,.field.invalid select,.field.invalid textarea{border-color:var(--err);background:#fdf3f2}
+  .errmsg{display:none;color:var(--err);font-size:11.5px;font-weight:600;margin-top:5px}
+  .field.invalid .errmsg{display:block}
+
+  .submit-bar{position:fixed;left:0;right:0;bottom:0;background:rgba(246,244,238,.94);backdrop-filter:blur(8px);
+    border-top:1px solid var(--line);padding:12px 16px;z-index:50}
+  .submit-inner{max-width:680px;margin:0 auto;display:flex;gap:12px;align-items:center}
+  .status{flex:1;font-size:12.5px;color:var(--ink-soft)}
+  .status b{color:var(--err)}
+  .btn{border:0;border-radius:10px;padding:13px 22px;font:inherit;font-weight:700;font-size:15px;cursor:pointer;
+    background:var(--emerald);color:#fff;white-space:nowrap;box-shadow:var(--shadow);transition:.15s}
+  .btn:hover{background:var(--deep)}
+  .btn.copy{background:#fff;color:var(--emerald);border:1px solid var(--emerald)}
+
+  .done{display:none;text-align:center;padding:50px 20px}
+  .done.show{display:block}
+  .done .tick{width:64px;height:64px;border-radius:50%;background:var(--emerald);color:#fff;display:grid;place-items:center;
+    font-size:32px;margin:0 auto 18px}
+  .done h2{font-family:'Fraunces',serif;font-size:24px;margin-bottom:8px}
+  .done p{color:var(--ink-soft);font-size:14px;max-width:420px;margin:0 auto 18px}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <span class="mark">PropBillion</span>
+    <h1>Project <em>Mapping Form</em></h1>
+    <p class="lead">Project ki saari details ek baar mein fill karo. Submit karte hi sab kuch ek message ban ke PropBillion team ko chala jayega — phone pe baar-baar poochne ki zarurat nahi.</p>
+    <div class="note"><b>Note:</b> Har field bharna zaroori hai. Agar kisi detail ka pata nahi, toh us field mein <b>NA</b> likho — blank mat chhodo, warna form submit nahi hoga.</div>
+  </header>
+
+  <form id="mapForm" novalidate></form>
+
+  <div class="done" id="done">
+    <div class="tick">&#10003;</div>
+    <h2>Details ready!</h2>
+    <p>WhatsApp khul raha hai PropBillion team ke message ke saath. Bas <b>Send</b> dabao. Agar WhatsApp na khule, neeche "Copy Details" se copy karke bhej do.</p>
+    <button class="btn" id="reopen" type="button">WhatsApp dobara kholo</button>
+    <button class="btn copy" id="copy2" type="button" style="margin-top:10px">Copy Details</button>
+  </div>
+</div>
+
+<div class="submit-bar" id="bar">
+  <div class="submit-inner">
+    <div class="status" id="status">Saari fields bharo phir Submit karo</div>
+    <button class="btn copy" type="button" id="copyBtn">Copy</button>
+    <button class="btn" type="button" id="submitBtn">Submit &amp; Send</button>
+  </div>
+</div>
+
+<script>
+/* ========================================================================
+   STEP 1 — YAHAN APNA WHATSAPP NUMBER DAALO (country code ke saath, no +, no spaces)
+   Example: India ka 98765 43210  ->  "919876543210"
+   ======================================================================== */
+const WHATSAPP_NUMBER = "91XXXXXXXXXX";
+/* ===================================================================== */
+
+const FORM = [
+ {sec:"Basic Info", fields:[
+   {id:"projName", label:"Project Name", type:"text"},
+   {id:"builder", label:"Builder / Developer", type:"text"},
+   {id:"area", label:"Location / Area", q:"e.g. Mundwa, Magarpatta, Koregaon Park", type:"text"},
+   {id:"byName", label:"Aapka Naam (jo fill kar raha hai)", type:"text"},
+   {id:"byDesg", label:"Designation", q:"e.g. Sales Manager, CRM", type:"text"},
+   {id:"byPhone", label:"Aapka Contact Number", type:"tel"},
+   {id:"date", label:"Mapping Date", type:"date"},
+ ]},
+ {sec:"Project Basics", fields:[
+   {id:"land", label:"Total land size (acres)", q:"Q1 — resi + commercial split bhi likho agar pata ho", type:"text"},
+   {id:"towers", label:"Total towers (launched / total)", q:"Q2 — e.g. 3 of 5 launched (A,B,C)", type:"text"},
+   {id:"height", label:"Tower height (floors + basement/podium)", q:"Q3 — e.g. 37 floors + 3 basement + G + 2 podium", type:"text"},
+   {id:"perFloor", label:"Ek floor par kitne flats", q:"Q4", type:"text"},
+   {id:"lifts", label:"Har tower mein kitni lifts", q:"Q5", type:"text"},
+   {id:"launch", label:"Project kab launch hua", q:"Q11 — pre-launch + actual launch dono", type:"text"},
+ ]},
+ {sec:"Units & Carpet Area", fields:[
+   {id:"config", label:"Configurations available", q:"Q6 — e.g. 3 / 3.5 / 4 / 4.5 BHK", type:"text"},
+   {id:"carpet", label:"RERA carpet area — unit wise (sqft)", q:"Q6 — har config ka exact carpet, tower wise agar alag ho", type:"textarea"},
+ ]},
+ {sec:"Parking", fields:[
+   {id:"parkUnit", label:"Parking per unit type", q:"Q7 — e.g. 3BHK 2 park, 4BHK 3 park", type:"textarea"},
+   {id:"parkType", label:"Parking ka type", q:"Q8 — tandem / stack / side-by-side / mechanical", type:"text"},
+   {id:"parkFlex", label:"Parking allocation flexibility", q:"Q9 — pre-allotted / select kar sakte / case-to-case", type:"text"},
+ ]},
+ {sec:"Pricing & Per-Sqft Rate", rate:true, fields:[
+   {id:"rateBasis", label:"Rate basis", q:"Carpet ya Built-up — yeh confirm karna zaroori hai", type:"select", options:["Carpet","Built-up","Saleable / Super built-up"]},
+   {id:"quoteRate", label:"Quoted rate (per sqft)", q:"Q12 — builder ka list rate, e.g. Rs 13,000/sqft", type:"text"},
+   {id:"dealRate", label:"Deal / landing rate (per sqft)", q:"Q12 — actual jis rate pe deal hoti hai", type:"text"},
+   {id:"floorRise", label:"Floor-rise charge (per sqft) + kis floor se", q:"e.g. Rs 50/sqft above 3rd floor", type:"text"},
+   {id:"otherCharges", label:"Other charges", q:"GST, club, infra, parking, stamp+reg — jo bhi extra", type:"textarea"},
+   {id:"allIn", label:"All-in cost — config wise (Cr)", q:"e.g. 3BHK Rs 2.4 Cr, 4BHK Rs 3.3 Cr", type:"textarea"},
+   {id:"payment", label:"Payment schedule", q:"Q13 — CLP / time-linked, slab break-up, % due", type:"textarea"},
+ ]},
+ {sec:"Inventory & Timeline", fields:[
+   {id:"inventory", label:"Current available inventory", q:"Q10 — tower / floor / unit wise, kya sold kya available", type:"textarea"},
+   {id:"reraDate", label:"RERA possession date", q:"Q14 — tower wise agar alag", type:"text"},
+   {id:"builderDate", label:"Builder commitment date", q:"Q14", type:"text"},
+   {id:"construction", label:"Construction progress / live overview", q:"Q25 — % complete, kya started kya nahi", type:"textarea"},
+   {id:"sample", label:"Sample flat status", q:"Q26 — kaunsa config ready, kitne sqft", type:"text"},
+ ]},
+ {sec:"Sales Intelligence", fields:[
+   {id:"usp", label:"Project ka exact USP", q:"Q17 — location, density, ceiling height, vastu, MHADA/no-MHADA, specs", type:"textarea"},
+   {id:"competitors", label:"Nearby competitors / comparison", q:"Q15 & Q16 — baju ke saare competing projects", type:"textarea"},
+   {id:"pitch", label:"Competition ke against pitch kaise karte ho", q:"Q18 — kaunse points pe customer ko convince karte ho", type:"textarea"},
+   {id:"bookings", label:"Last bookings zyada kis location se", q:"Q19", type:"text"},
+   {id:"footfall", label:"Average weekend site footfall", q:"Q20 — weekday vs weekend", type:"text"},
+   {id:"vtc", label:"Visit-to-closing ratio", q:"Q21 — e.g. 10%", type:"text"},
+   {id:"tagging", label:"Tagging period (days)", q:"Q22", type:"text"},
+   {id:"extension", label:"Revisit / extension policy", q:"Q23 — extension milta hai? kitne din?", type:"text"},
+   {id:"nego", label:"Negotiation scope for serious buyers", q:"Q24 — kitna tak chhod sakte ho", type:"text"},
+ ]},
+];
+
+// ---- render ----
+const form=document.getElementById('mapForm');
+let secNum=0;
+FORM.forEach(s=>{
+  secNum++;
+  const sec=document.createElement('div');
+  sec.className='section'+(s.rate?' rate':'');
+  let inner=`<div class="section-head"><div class="num">${secNum}</div><h2>${s.sec}</h2></div><div class="section-body">`;
+  s.fields.forEach(f=>{
+    const q=f.q?`<span class="q">${f.q}</span>`:'';
+    let control='';
+    if(f.type==='textarea'){
+      control=`<textarea id="${f.id}" data-label="${f.label}"></textarea>`;
+    }else if(f.type==='select'){
+      control=`<select id="${f.id}" data-label="${f.label}"><option value="">-- select --</option>`+
+        f.options.map(o=>`<option>${o}</option>`).join('')+`</select>`;
+    }else{
+      control=`<input id="${f.id}" type="${f.type}" data-label="${f.label}">`;
+    }
+    inner+=`<div class="field" data-fid="${f.id}"><label>${f.label}<span class="star">*</span>${q}</label>${control}<div class="errmsg">Yeh field bharo (ya NA likho)</div></div>`;
+  });
+  inner+=`</div>`;
+  sec.innerHTML=inner;
+  form.appendChild(sec);
+});
+
+// ---- collect all field ids ----
+const ALL=[];
+FORM.forEach(s=>s.fields.forEach(f=>ALL.push(f)));
+
+function getVal(id){return (document.getElementById(id).value||'').trim();}
+
+function validate(){
+  let firstBad=null, missing=0;
+  ALL.forEach(f=>{
+    const wrap=document.querySelector(`[data-fid="${f.id}"]`);
+    if(getVal(f.id)===''){
+      wrap.classList.add('invalid'); missing++;
+      if(!firstBad) firstBad=wrap;
+    }else{
+      wrap.classList.remove('invalid');
+    }
+  });
+  return {firstBad,missing};
+}
+
+// live: clear error on input
+form.addEventListener('input',e=>{
+  const wrap=e.target.closest('.field');
+  if(wrap && e.target.value.trim()!=='') wrap.classList.remove('invalid');
+});
+
+function buildMessage(){
+  const L=[];
+  L.push("*PROPBILLION — PROJECT MAPPING*");
+  L.push("———————————————");
+  FORM.forEach(s=>{
+    L.push("");
+    L.push("*— "+s.sec.toUpperCase()+" —*");
+    s.fields.forEach(f=>{
+      L.push("*"+f.label+":* "+getVal(f.id));
+    });
+  });
+  L.push("");
+  L.push("———————————————");
+  L.push("_Submitted via PropBillion mapping form_");
+  return L.join("\n");
+}
+
+function doSubmit(){
+  const {firstBad,missing}=validate();
+  const status=document.getElementById('status');
+  if(missing>0){
+    status.innerHTML=`<b>${missing} field${missing>1?'s':''} baaki ${missing>1?'hain':'hai'}</b> — bhar ke phir submit karo`;
+    if(firstBad){firstBad.scrollIntoView({behavior:'smooth',block:'center'});
+      const el=firstBad.querySelector('input,select,textarea'); if(el) el.focus({preventScroll:true});}
+    return;
+  }
+  if(WHATSAPP_NUMBER.includes('X')){
+    status.innerHTML=`<b>Setup pending:</b> form ke code mein WHATSAPP_NUMBER set nahi hua`;
+    return;
+  }
+  const msg=buildMessage();
+  const url='https://wa.me/'+WHATSAPP_NUMBER+'?text='+encodeURIComponent(msg);
+  window.lastMsg=msg; window.lastUrl=url;
+  window.open(url,'_blank');
+  document.getElementById('mapForm').style.display='none';
+  document.getElementById('bar').style.display='none';
+  document.getElementById('done').classList.add('show');
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+function copyDetails(){
+  const {missing}=validate();
+  if(missing>0){document.getElementById('status').innerHTML=`<b>${missing} field baaki</b> — copy se pehle sab bharo`;return;}
+  const msg=buildMessage();
+  navigator.clipboard.writeText(msg).then(()=>{
+    document.getElementById('status').textContent='Copy ho gaya — WhatsApp mein paste karke bhej do';
+  });
+}
+
+document.getElementById('submitBtn').addEventListener('click',doSubmit);
+document.getElementById('copyBtn').addEventListener('click',copyDetails);
+document.getElementById('reopen').addEventListener('click',()=>{if(window.lastUrl)window.open(window.lastUrl,'_blank');});
+document.getElementById('copy2').addEventListener('click',()=>{if(window.lastMsg)navigator.clipboard.writeText(window.lastMsg);});
+
+// default date = today
+document.getElementById('date').value=new Date().toISOString().slice(0,10);
+</script>
+</body>
+</html>
