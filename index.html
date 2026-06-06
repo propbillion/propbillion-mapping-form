@@ -3,274 +3,756 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>PropBillion · Project Mapping Form</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,700&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<title>PropBillion · Project Mapping</title>
 <style>
   :root{
-    --ink:#10231b; --ink-soft:#3c5147; --paper:#f6f4ee; --card:#fff;
-    --emerald:#005544; --deep:#0f3d2e; --gold:#b8862f; --line:#e3ded3;
-    --err:#c0392b; --shadow:0 1px 2px rgba(16,35,27,.05),0 8px 28px rgba(16,35,27,.07);
+    --bg:#fff; --bg2:#f5f5f7; --ink:#1d1d1f; --soft:#6e6e73; --line:#d2d2d7;
+    --blue:#0071e3; --blue-d:#0058b9; --green:#1a8b5a; --err:#d70015; --gold:#9a6a12;
+    --r:18px;
   }
-  *{box-sizing:border-box;margin:0;padding:0}
+  *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
   html{-webkit-text-size-adjust:100%}
-  body{font-family:'DM Sans',sans-serif;background:var(--paper);color:var(--ink);line-height:1.5;
-    background-image:radial-gradient(circle at 1px 1px,rgba(16,35,27,.04) 1px,transparent 0);background-size:22px 22px;}
-  .wrap{max-width:680px;margin:0 auto;padding:0 16px 120px}
+  body{font-family:-apple-system,BlinkMacSystemFont,"SF Pro Display","SF Pro Text","Segoe UI",Helvetica,Arial,sans-serif;
+    background:var(--bg2);color:var(--ink);line-height:1.47;letter-spacing:-.01em;-webkit-font-smoothing:antialiased}
+  .wrap{max-width:700px;margin:0 auto;padding:0 18px 130px}
 
-  header{padding:28px 0 20px;border-bottom:1px solid var(--line);margin-bottom:20px}
-  .mark{font-family:'Fraunces',serif;font-weight:700;font-size:12px;letter-spacing:.3em;text-transform:uppercase;
-    color:var(--emerald);border:1px solid var(--emerald);padding:5px 11px;border-radius:3px;display:inline-block}
-  h1{font-family:'Fraunces',serif;font-weight:600;font-size:clamp(26px,7vw,38px);line-height:1.05;margin:16px 0 8px}
-  h1 em{font-style:italic;color:var(--emerald)}
-  .lead{font-size:14px;color:var(--ink-soft);max-width:560px}
-  .note{margin-top:14px;background:#fbfaf6;border:1px solid var(--line);border-left:4px solid var(--gold);
-    border-radius:8px;padding:11px 14px;font-size:12.5px;color:var(--ink-soft)}
-  .note b{color:var(--ink)}
+  header{text-align:center;padding:46px 0 26px}
+  .kicker{font-size:12px;font-weight:600;letter-spacing:.04em;text-transform:uppercase;color:var(--blue)}
+  h1{font-size:clamp(32px,8vw,46px);font-weight:700;letter-spacing:-.03em;line-height:1.05;margin:8px 0 12px}
+  .lead{font-size:16px;color:var(--soft);max-width:520px;margin:0 auto}
+  .note{margin:18px auto 0;max-width:560px;background:#fff;border:1px solid var(--line);border-radius:14px;
+    padding:13px 16px;font-size:13px;color:var(--soft);text-align:left}
+  .note b{color:var(--ink);font-weight:600}
 
-  .section{background:var(--card);border:1px solid var(--line);border-radius:14px;box-shadow:var(--shadow);
-    margin-bottom:18px;overflow:hidden}
-  .section-head{padding:14px 18px;border-bottom:1px solid var(--line);display:flex;align-items:center;gap:10px}
-  .section-head .num{font-family:'Fraunces',serif;font-weight:700;font-size:13px;color:#fff;background:var(--emerald);
-    width:26px;height:26px;border-radius:50%;display:grid;place-items:center;flex-shrink:0}
-  .section-head h2{font-family:'Fraunces',serif;font-weight:600;font-size:17px}
-  .section.rate .section-head{background:linear-gradient(90deg,#fff,#fbf6ea)}
-  .section.rate .section-head .num{background:var(--gold)}
-  .section.rate{border-color:var(--gold)}
-  .section-body{padding:8px 18px 16px}
+  .section{background:#fff;border-radius:var(--r);margin-bottom:16px;overflow:hidden;
+    box-shadow:0 1px 1px rgba(0,0,0,.03),0 6px 22px rgba(0,0,0,.05)}
+  .sec-head{padding:18px 22px 4px}
+  .sec-head .n{font-size:12px;font-weight:600;color:var(--blue);letter-spacing:.02em}
+  .sec-head h2{font-size:22px;font-weight:700;letter-spacing:-.02em;margin-top:2px}
+  .sec-head.rate h2{color:var(--gold)}
+  .sec-body{padding:6px 22px 18px}
 
-  .field{padding:12px 0;border-bottom:1px dashed var(--line)}
+  .field{padding:13px 0;border-bottom:1px solid #ededf0}
   .field:last-child{border-bottom:0}
-  label{display:block;font-size:13.5px;font-weight:600;margin-bottom:7px;color:var(--ink)}
-  label .q{color:var(--ink-soft);font-weight:500;font-size:12px;display:block;margin-top:2px}
-  label .star{color:var(--err);margin-left:2px}
-  input,select,textarea{width:100%;border:1px solid var(--line);background:#fff;border-radius:9px;
-    padding:11px 13px;font:inherit;font-size:15px;color:var(--ink)}
-  input:focus,select:focus,textarea:focus{outline:none;border-color:var(--emerald);box-shadow:0 0 0 3px rgba(0,85,68,.1)}
-  textarea{resize:vertical;min-height:60px}
-  .field.invalid input,.field.invalid select,.field.invalid textarea{border-color:var(--err);background:#fdf3f2}
-  .errmsg{display:none;color:var(--err);font-size:11.5px;font-weight:600;margin-top:5px}
+  label{display:block;font-size:15px;font-weight:600;margin-bottom:8px}
+  label .q{display:block;font-size:12.5px;font-weight:400;color:var(--soft);margin-top:3px}
+  label .star{color:var(--err);margin-left:3px}
+  input,select,textarea{width:100%;font:inherit;font-size:16px;color:var(--ink);background:var(--bg2);
+    border:1px solid transparent;border-radius:12px;padding:13px 15px;letter-spacing:-.01em;transition:.15s}
+  input:focus,select:focus,textarea:focus{outline:none;background:#fff;border-color:var(--blue);box-shadow:0 0 0 4px rgba(0,113,227,.12)}
+  textarea{resize:vertical;min-height:62px}
+  select{appearance:none;-webkit-appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%236e6e73' stroke-width='1.6' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+    background-repeat:no-repeat;background-position:right 15px center;padding-right:38px}
+  .field.invalid input,.field.invalid select,.field.invalid textarea{border-color:var(--err);background:#fff5f5}
+  .errmsg{display:none;color:var(--err);font-size:12px;font-weight:600;margin-top:6px}
   .field.invalid .errmsg{display:block}
 
-  .submit-bar{position:fixed;left:0;right:0;bottom:0;background:rgba(246,244,238,.94);backdrop-filter:blur(8px);
-    border-top:1px solid var(--line);padding:12px 16px;z-index:50}
-  .submit-inner{max-width:680px;margin:0 auto;display:flex;gap:12px;align-items:center}
-  .status{flex:1;font-size:12.5px;color:var(--ink-soft)}
-  .status b{color:var(--err)}
-  .btn{border:0;border-radius:10px;padding:13px 22px;font:inherit;font-weight:700;font-size:15px;cursor:pointer;
-    background:var(--emerald);color:#fff;white-space:nowrap;box-shadow:var(--shadow);transition:.15s}
-  .btn:hover{background:var(--deep)}
-  .btn.copy{background:#fff;color:var(--emerald);border:1px solid var(--emerald)}
+  /* segmented control */
+  .seg{display:flex;background:var(--bg2);border-radius:13px;padding:4px;gap:4px}
+  .seg button{flex:1;border:0;background:transparent;font:inherit;font-weight:600;font-size:15px;color:var(--ink);
+    padding:12px;border-radius:10px;cursor:pointer;transition:.18s}
+  .seg button .s{display:block;font-weight:400;font-size:11.5px;color:var(--soft);margin-top:2px}
+  .seg button.on{background:#fff;box-shadow:0 1px 4px rgba(0,0,0,.12)}
+  .seg button.on,.seg button.on .s{color:var(--blue)}
 
-  .done{display:none;text-align:center;padding:50px 20px}
+  /* chips */
+  .chips{display:flex;flex-wrap:wrap;gap:9px;padding-top:2px}
+  .chip{position:relative}
+  .chip input{position:absolute;opacity:0;width:0;height:0}
+  .chip span{display:inline-block;background:var(--bg2);border:1.5px solid transparent;border-radius:999px;
+    padding:10px 17px;font-size:14.5px;font-weight:600;color:var(--ink);cursor:pointer;transition:.13s;user-select:none}
+  .chip input:checked + span{background:var(--blue);color:#fff}
+  .field.invalid .chips span{border-color:var(--err)}
+
+  /* subcards / variants */
+  .subwrap{margin-top:8px}
+  .bhkcard{background:var(--bg2);border-radius:14px;padding:6px 16px 14px;margin-top:12px}
+  .bhkcard > h4{font-size:16px;font-weight:700;padding:12px 0 6px}
+  .variant{background:#fff;border-radius:12px;padding:4px 14px 10px;margin-top:10px;position:relative}
+  .variant .vh{display:flex;justify-content:space-between;align-items:center;padding:9px 0 2px}
+  .variant .vh span{font-size:13px;font-weight:700;color:var(--blue)}
+  .variant .vh button{border:0;background:#ffe5e5;color:var(--err);width:26px;height:26px;border-radius:50%;
+    font-size:16px;cursor:pointer;line-height:1}
+  .addvar{margin-top:11px;border:1.5px dashed var(--line);background:#fff;color:var(--blue);font:inherit;font-weight:600;
+    font-size:14px;width:100%;padding:12px;border-radius:12px;cursor:pointer}
+  .addvar:hover{border-color:var(--blue)}
+  .vfield{padding:9px 0;border-bottom:1px solid #f0f0f2}
+  .vfield:last-child{border-bottom:0}
+  .vfield label{font-size:13.5px;font-weight:600;margin-bottom:6px}
+
+  .infobox{margin-top:10px;border-radius:12px;padding:11px 14px;font-size:13px;display:none}
+  .infobox.show{display:block}
+  .infobox.yes{background:#e8f7ee;color:#0c5a35}
+  .infobox.no{background:#fdeaea;color:#8a1410}
+  .btn-ghost{margin-top:11px;border:1.5px solid var(--blue);background:#fff;color:var(--blue);font:inherit;font-weight:600;
+    font-size:14px;padding:11px 16px;border-radius:12px;cursor:pointer;display:inline-block;text-decoration:none}
+  .api-note{background:#fff8ec;border-radius:11px;padding:10px 13px;font-size:12px;color:#7a5a14;margin-top:9px}
+  .hint{font-size:12.5px;color:var(--soft);margin-top:6px}
+  #locOut{margin-top:9px;font-size:13px;word-break:break-all}
+  .cond{display:none}
+  .cond.show{display:block}
+
+  .bar{position:fixed;left:0;right:0;bottom:0;background:rgba(255,255,255,.82);backdrop-filter:saturate(180%) blur(20px);
+    border-top:.5px solid rgba(0,0,0,.1);padding:13px 18px;z-index:50}
+  .bar-in{max-width:700px;margin:0 auto;display:flex;gap:11px;align-items:center}
+  .status{flex:1;font-size:13px;color:var(--soft)}
+  .status b{color:var(--err)}
+  .btn{border:0;border-radius:980px;padding:13px 24px;font:inherit;font-weight:600;font-size:16px;cursor:pointer;
+    background:var(--blue);color:#fff;white-space:nowrap;transition:.15s}
+  .btn:hover{background:var(--blue-d)}
+  .btn.alt{background:var(--bg2);color:var(--blue)}
+  .saved{font-size:12px;color:var(--green);font-weight:600;text-align:center;margin-top:10px;opacity:0;transition:.3s}
+  .saved.show{opacity:1}
+
+  .done{display:none;text-align:center;padding:60px 20px}
   .done.show{display:block}
-  .done .tick{width:64px;height:64px;border-radius:50%;background:var(--emerald);color:#fff;display:grid;place-items:center;
-    font-size:32px;margin:0 auto 18px}
-  .done h2{font-family:'Fraunces',serif;font-size:24px;margin-bottom:8px}
-  .done p{color:var(--ink-soft);font-size:14px;max-width:420px;margin:0 auto 18px}
+  .done .tick{width:72px;height:72px;border-radius:50%;background:var(--green);color:#fff;display:grid;place-items:center;
+    font-size:36px;margin:0 auto 20px}
+  .done h2{font-size:28px;font-weight:700;letter-spacing:-.02em;margin-bottom:10px}
+  .done p{color:var(--soft);max-width:430px;margin:0 auto 20px}
 </style>
 </head>
 <body>
 <div class="wrap">
   <header>
-    <span class="mark">PropBillion</span>
-    <h1>Project <em>Mapping Form</em></h1>
-    <p class="lead">Project ki saari details ek baar mein fill karo. Submit karte hi sab kuch ek message ban ke PropBillion team ko chala jayega — phone pe baar-baar poochne ki zarurat nahi.</p>
-    <div class="note"><b>Note:</b> Har field bharna zaroori hai. Agar kisi detail ka pata nahi, toh us field mein <b>NA</b> likho — blank mat chhodo, warna form submit nahi hoga.</div>
+    <div class="kicker">PropBillion</div>
+    <h1>Project Mapping</h1>
+    <p class="lead">Project ki saari intel ek baar fill karo. Submit pe sab kuch ek WhatsApp message ban ke team ko chala jaata hai.</p>
+    <div class="note"><b>Note:</b> Static fields bharna zaroori — pata nahi to <b>NA</b> likho, blank mat chhodo. BHK variants, refuge floors aur vastu jitne bharo utna behtar (force nahi). Sab apne aap auto-save hota rehta hai.</div>
   </header>
 
-  <form id="mapForm" novalidate></form>
+  <div id="appForm">
+    <div id="resiWrap"></div>
+    <div id="commWrap" style="display:none"></div>
+  </div>
+  <div class="saved" id="saved">&#10003; Auto-saved</div>
 
   <div class="done" id="done">
     <div class="tick">&#10003;</div>
-    <h2>Details ready!</h2>
-    <p>WhatsApp khul raha hai PropBillion team ke message ke saath. Bas <b>Send</b> dabao. Agar WhatsApp na khule, neeche "Copy Details" se copy karke bhej do.</p>
-    <button class="btn" id="reopen" type="button">WhatsApp dobara kholo</button>
-    <button class="btn copy" id="copy2" type="button" style="margin-top:10px">Copy Details</button>
+    <h2>Ready hai</h2>
+    <p>WhatsApp khul raha hai PropBillion team ke message ke saath — bas <b>Send</b> dabao. Na khule ya message chhota kata lage to "Copy" se paste kar do.</p>
+    <button class="btn" id="reopen" type="button">WhatsApp dobara kholo</button><br><br>
+    <button class="btn alt" id="copy2" type="button">Copy Details</button>
   </div>
 </div>
 
-<div class="submit-bar" id="bar">
-  <div class="submit-inner">
-    <div class="status" id="status">Saari fields bharo phir Submit karo</div>
-    <button class="btn copy" type="button" id="copyBtn">Copy</button>
-    <button class="btn" type="button" id="submitBtn">Submit &amp; Send</button>
+<div class="bar" id="bar">
+  <div class="bar-in">
+    <div class="status" id="status">Fill karo, phir Submit</div>
+    <button class="btn alt" type="button" id="copyBtn">Copy</button>
+    <button class="btn" type="button" id="submitBtn">Submit</button>
   </div>
 </div>
 
 <script>
-/* ========================================================================
-   STEP 1 — YAHAN APNA WHATSAPP NUMBER DAALO (country code ke saath, no +, no spaces)
-   Example: India ka 98765 43210  ->  "919876543210"
-   ======================================================================== */
-const WHATSAPP_NUMBER = "91XXXXXXXXXX";
-/* ===================================================================== */
+/* ====================== CONFIG ====================== */
+const WHATSAPP_NUMBER = "918857090799";
+const BHK_OPTIONS = ["2BHK","2.5BHK","3BHK","3.5BHK","4BHK","4.5BHK","5BHK","5BHK & above"];
+const DRAFT_KEY = "propbillion_map_draft_v3";
+const YN = ["Yes","No"];
+/* ==================================================== */
 
-const FORM = [
- {sec:"Basic Info", fields:[
-   {id:"projName", label:"Project Name", type:"text"},
-   {id:"builder", label:"Builder / Developer", type:"text"},
-   {id:"area", label:"Location / Area", q:"e.g. Mundwa, Magarpatta, Koregaon Park", type:"text"},
-   {id:"byName", label:"Aapka Naam (jo fill kar raha hai)", type:"text"},
-   {id:"byDesg", label:"Designation", q:"e.g. Sales Manager, CRM", type:"text"},
-   {id:"byPhone", label:"Aapka Contact Number", type:"tel"},
-   {id:"date", label:"Mapping Date", type:"date"},
- ]},
- {sec:"Project Basics", fields:[
-   {id:"land", label:"Total land size (acres)", q:"Q1 — resi + commercial split bhi likho agar pata ho", type:"text"},
-   {id:"towers", label:"Total towers (launched / total)", q:"Q2 — e.g. 3 of 5 launched (A,B,C)", type:"text"},
-   {id:"height", label:"Tower height (floors + basement/podium)", q:"Q3 — e.g. 37 floors + 3 basement + G + 2 podium", type:"text"},
-   {id:"perFloor", label:"Ek floor par kitne flats", q:"Q4", type:"text"},
-   {id:"lifts", label:"Har tower mein kitni lifts", q:"Q5", type:"text"},
-   {id:"launch", label:"Project kab launch hua", q:"Q11 — pre-launch + actual launch dono", type:"text"},
- ]},
- {sec:"Units & Carpet Area", fields:[
-   {id:"config", label:"Configurations available", q:"Q6 — e.g. 3 / 3.5 / 4 / 4.5 BHK", type:"text"},
-   {id:"carpet", label:"RERA carpet area — unit wise (sqft)", q:"Q6 — har config ka exact carpet, tower wise agar alag ho", type:"textarea"},
- ]},
- {sec:"Parking", fields:[
-   {id:"parkUnit", label:"Parking per unit type", q:"Q7 — e.g. 3BHK 2 park, 4BHK 3 park", type:"textarea"},
-   {id:"parkType", label:"Parking ka type", q:"Q8 — tandem / stack / side-by-side / mechanical", type:"text"},
-   {id:"parkFlex", label:"Parking allocation flexibility", q:"Q9 — pre-allotted / select kar sakte / case-to-case", type:"text"},
- ]},
- {sec:"Pricing & Per-Sqft Rate", rate:true, fields:[
-   {id:"rateBasis", label:"Rate basis", q:"Carpet ya Built-up — yeh confirm karna zaroori hai", type:"select", options:["Carpet","Built-up","Saleable / Super built-up"]},
-   {id:"quoteRate", label:"Quoted rate (per sqft)", q:"Q12 — builder ka list rate, e.g. Rs 13,000/sqft", type:"text"},
-   {id:"dealRate", label:"Deal / landing rate (per sqft)", q:"Q12 — actual jis rate pe deal hoti hai", type:"text"},
-   {id:"floorRise", label:"Floor-rise charge (per sqft) + kis floor se", q:"e.g. Rs 50/sqft above 3rd floor", type:"text"},
-   {id:"otherCharges", label:"Other charges", q:"GST, club, infra, parking, stamp+reg — jo bhi extra", type:"textarea"},
-   {id:"allIn", label:"All-in cost — config wise (Cr)", q:"e.g. 3BHK Rs 2.4 Cr, 4BHK Rs 3.3 Cr", type:"textarea"},
-   {id:"payment", label:"Payment schedule", q:"Q13 — CLP / time-linked, slab break-up, % due", type:"textarea"},
- ]},
- {sec:"Inventory & Timeline", fields:[
-   {id:"inventory", label:"Current available inventory", q:"Q10 — tower / floor / unit wise, kya sold kya available", type:"textarea"},
-   {id:"reraDate", label:"RERA possession date", q:"Q14 — tower wise agar alag", type:"text"},
-   {id:"builderDate", label:"Builder commitment date", q:"Q14", type:"text"},
-   {id:"construction", label:"Construction progress / live overview", q:"Q25 — % complete, kya started kya nahi", type:"textarea"},
-   {id:"sample", label:"Sample flat status", q:"Q26 — kaunsa config ready, kitne sqft", type:"text"},
- ]},
- {sec:"Sales Intelligence", fields:[
-   {id:"usp", label:"Project ka exact USP", q:"Q17 — location, density, ceiling height, vastu, MHADA/no-MHADA, specs", type:"textarea"},
-   {id:"competitors", label:"Nearby competitors / comparison", q:"Q15 & Q16 — baju ke saare competing projects", type:"textarea"},
-   {id:"pitch", label:"Competition ke against pitch kaise karte ho", q:"Q18 — kaunse points pe customer ko convince karte ho", type:"textarea"},
-   {id:"bookings", label:"Last bookings zyada kis location se", q:"Q19", type:"text"},
-   {id:"footfall", label:"Average weekend site footfall", q:"Q20 — weekday vs weekend", type:"text"},
-   {id:"vtc", label:"Visit-to-closing ratio", q:"Q21 — e.g. 10%", type:"text"},
-   {id:"tagging", label:"Tagging period (days)", q:"Q22", type:"text"},
-   {id:"extension", label:"Revisit / extension policy", q:"Q23 — extension milta hai? kitne din?", type:"text"},
-   {id:"nego", label:"Negotiation scope for serious buyers", q:"Q24 — kitna tak chhod sakte ho", type:"text"},
- ]},
+/* ---------- generic field renderer ---------- */
+function fieldHTML(f){
+  const q=f.q?`<span class="q">${f.q}</span>`:'';
+  const opt=f.opt?' data-opt="1"':'';
+  let c='';
+  if(f.type==='textarea') c=`<textarea id="${f.id}" data-label="${f.label}"${opt}></textarea>`;
+  else if(f.type==='select') c=`<select id="${f.id}" data-label="${f.label}"${opt}><option value="">Select</option>${f.options.map(o=>`<option>${o}</option>`).join('')}</select>`;
+  else c=`<input id="${f.id}" type="${f.type||'text'}" data-label="${f.label}"${opt}>`;
+  return `<div class="field" data-fid="${f.id}"><label>${f.label}${f.opt?'':'<span class="star">*</span>'}${q}</label>${c}<div class="errmsg">Bharo (ya NA)</div></div>`;
+}
+function shell(n,title,body,rate){
+  return `<div class="section"><div class="sec-head${rate?' rate':''}"><div class="n">Section ${n}</div><h2>${title}</h2></div><div class="sec-body">${body}</div></div>`;
+}
+
+/* ====================== RESIDENTIAL LAYOUT ====================== */
+const RESI=[
+  {sec:'Basics', fields:[
+    {id:'projName',label:'Project Name',q:'Jo search karoge wahi exact project name',type:'text'},
+    {id:'builder',label:'Builder / Developer',type:'text'},
+    {id:'byName',label:'Aapka naam',type:'text'},
+    {id:'byDesg',label:'Designation',q:'e.g. Sales Manager / CRM',type:'text'},
+    {id:'byPhone',label:'Aapka contact number',type:'tel'},
+    {id:'date',label:'Mapping date',type:'date'},
+  ]},
+  {sec:'Project Structure', fields:[
+    {id:'land',label:'Total land size (acres)',q:'resi + commercial split bhi',type:'text'},
+    {id:'towers',label:'Total towers (launched / total)',q:'e.g. 3 of 5 (A,B,C launched)',type:'text'},
+    {id:'height',label:'Tower height',q:'floors + basement + podium',type:'text'},
+    {id:'perFloor',label:'Flats per floor',type:'text'},
+    {id:'lifts',label:'Lifts per tower',type:'text'},
+    {id:'constTech',label:'Construction technology',type:'select',options:['Mivan','Traditional','Semi-Mivan']},
+  ]},
+  {sec:'Units & Carpet (overview)', fields:[
+    {id:'config',label:'Configurations available (overview)',q:'e.g. 2 / 3 / 4 BHK',type:'text'},
+    {id:'carpet',label:'RERA carpet area note',q:'Detailed BHK-wise neeche variants me bharna hai',type:'textarea'},
+    {id:'flooring',label:'Flooring — floor par kya de rahe ho',q:'e.g. 800x800 vitrified, Italian marble in living',type:'text'},
+  ]},
+  {custom:'bhk'},
+  {custom:'refuge'},
+  {sec:'Parking — Type', fields:[
+    {id:'parkUnit',label:'Parking per unit type',q:'e.g. 3BHK 2, 4BHK 3',type:'textarea'},
+    {id:'parkType',label:'Parking type',q:'tandem / stack / side-by-side / mechanical',type:'text'},
+    {id:'parkFlex',label:'Allocation flexibility',q:'pre-allotted / selectable / case-to-case',type:'text'},
+  ]},
+  {sec:'Parking — Levels', fields:[
+    {id:'parkLevels',label:'Parking levels',q:'e.g. 3 basement + 1 ground + 1 upper ground + podium',type:'textarea'},
+  ]},
+  {sec:'Pricing & Rate', rate:true, fields:[
+    {id:'rateBasis',label:'Rate basis',q:'Carpet ya built-up — confirm',type:'select',options:['Carpet','Built-up','Saleable / Super built-up']},
+    {id:'quoteRate',label:'Quoted rate (per sqft)',type:'text'},
+    {id:'dealRate',label:'Deal / landing rate (per sqft)',type:'text'},
+    {id:'floorRise',label:'Floor-rise charge + kis floor se',type:'text'},
+    {id:'otherCharges',label:'Other charges',q:'GST, club, infra, LEGAL charge, koi bhi hidden / extra charge — sab',type:'textarea'},
+    {id:'allIn',label:'All-in cost — config wise (Cr)',type:'textarea'},
+    {id:'payment',label:'Payment schedule',q:'CLP / time-linked, slab break-up',type:'textarea'},
+  ]},
+  {sec:'Maintenance', fields:[
+    {id:'maintPerSqft',label:'Maintenance per sqft',q:'(per sqft on carpet area) builder commitment, e.g. Rs 4/sqft',type:'text'},
+    {id:'maintHandover',label:'Society handover & post-handover maintenance',q:'e.g. Rs 5/sqft on carpet after handover',type:'textarea'},
+    {id:'maintWhen',label:'Maintenance kab pay karna hai',type:'select',options:['At possession','At booking','Other (likho carpet note me)']},
+  ]},
+  {sec:'Inventory & Availability', fields:[
+    {id:'inventory',label:'Current available inventory',q:'(very detailed and tentative idea) — tower / floor / unit wise',type:'textarea'},
+    {id:'facingSold',label:'Kaunsi facing ke flats zyada SOLD',q:'taaki ye kam pitch karein',type:'textarea'},
+    {id:'facingAvail',label:'Kaunse zyada AVAILABLE',q:'taaki ye zyada pitch karein',type:'textarea'},
+    {id:'delivered',label:'Ab tak kya deliver ho chuka',q:'Agar nahi hua to kaunsa tower kitni jaldi deliver hoga — with timeline',type:'textarea'},
+  ]},
+  {sec:'Construction & Timeline', fields:[
+    {id:'reraDate',label:'RERA possession date',q:'tower wise agar alag',type:'text'},
+    {id:'builderPossess',label:'Builder possession commitment date',type:'text'},
+    {id:'constNow',label:'Construction progress — aaj tak',q:'% complete, kya hua',type:'textarea'},
+    {id:'constFuture',label:'Next 3-4 saal me kya hoga (tentative)',q:'taaki customer pooche to idea de sakein',type:'textarea'},
+    {id:'sample',label:'Sample flat status',q:'(e.g. ready nahi to kaunsa ready hoga & kab)',type:'text'},
+  ]},
+  {sec:'Upcoming Towers', fields:[
+    {id:'upTowers',label:'Upcoming towers in same project',q:'e.g. 0, 1, 2, 3, 4',type:'text'},
+    {id:'upTowersDl',label:'Upcoming towers deadline (tentative)',q:'kab tak, kaunse open honge — mota idea',type:'textarea'},
+  ]},
+  {sec:'Launch & Token Dates', fields:[
+    {id:'tokenStart',label:'Token phase start date',type:'text'},
+    {id:'launchDate',label:'Project launch date',type:'text'},
+    {id:'preLaunch',label:'Pre-launch date',type:'text'},
+    {id:'upLaunch',label:'Upcoming launch date',q:'e.g. No launch available now / 2nd launch Nov-Dec 2026',type:'text'},
+  ]},
+  {sec:'Litigations', fields:[
+    {id:'litigation',label:'Litigations on the project + explanation',q:'Total litigations + jo explanation hum customer ko dete hain (agar 3 type hain to teeno ka logical explanation)',type:'textarea'},
+  ]},
+  {sec:'Position', fields:[
+    {id:'position',label:'Position — tower-wise detailed',q:'corner / garden-facing / road-facing / internal',type:'textarea'},
+  ]},
+  {sec:'Floor-to-Ceiling Height', fields:[
+    {id:'ceiling',label:'Floor-to-ceiling height',q:'e.g. 10 ft clear',type:'text'},
+  ]},
+  {sec:'Deck', fields:[
+    {id:'deck',label:'Long & big deck available in hall?',q:'Deck = hall ke saath lagi bahut lambi balcony',type:'select',options:YN},
+    {id:'deckSize',label:'Deck size (agar hai)',q:'e.g. 20 ft x 6 ft',type:'text'},
+  ]},
+  {sec:'Balconies Covered', fields:[
+    {id:'balCovered',label:'Balconies are covered?',type:'select',options:YN},
+  ]},
+  {sec:'MNGL Gas Connection', fields:[
+    {id:'mngl',label:'MNGL gas connection in home?',type:'select',options:YN},
+  ]},
+  {custom:'mhada'},
+  {custom:'location'},
+  {sec:'Specifications', fields:[
+    {id:'specs',label:'Specifications used in home',q:'Brands + kitchen + bathroom + doors/windows + fittings',type:'textarea'},
+  ]},
+  {sec:'Amenities', fields:[
+    {id:'totalAme',label:'Total number of amenities in project',type:'text'},
+    {id:'ameUSP',label:'Top USP amenities',type:'textarea'},
+    {id:'ameExtra',label:'Extra amenities',q:'(very high USP amenities — e.g. mandir in society, plunge pool in homes)',type:'textarea'},
+  ]},
+  {custom:'vastu'},
+  {sec:'Balcony & Dry Balcony — View & Duct', fields:[
+    {id:'balconyView',label:'Balcony view & blockage',q:'View kahan ka; block ho raha kya; kitna door warna infinite open',type:'textarea'},
+    {id:'dryView',label:'Dry balcony — open / duct + view',q:'Duct me khulti ya open-to-sky; open to sky to view kya; blockage distance',type:'textarea'},
+  ]},
+  {sec:'Negative Points & Counter', fields:[
+    {id:'negatives',label:'Genuine negative points + our counter',q:'Jo customer/competitor bolke deal todte hain + ready counter',type:'textarea'},
+  ]},
+  {sec:'Landmarks', fields:[
+    {id:'landmarks',label:'Top main landmarks near project',q:'distance ke saath',type:'textarea'},
+  ]},
+  {sec:'Builder Details', fields:[
+    {id:'ownerNames',label:'Builder owner name (all names)',type:'textarea'},
+    {id:'builderHistory',label:'Builder & project history',q:'history + past experiences',type:'textarea'},
+    {id:'legacy',label:'Legacy (kitni purani)',type:'text'},
+  ]},
+  {custom:'community'},
+  {sec:'Sales Intelligence', fields:[
+    {id:'usp',label:'Project ka exact USP',type:'textarea'},
+    {id:'compDirect',label:'Direct competitors (names)',q:'Same price/carpet segment — jahan customer immediately switch karke close kar deta hai',type:'textarea'},
+    {id:'compIndirect',label:'Indirect competitors (names)',q:'Alag variant/spec, kam luxury, par phir bhi customer wahan jaata hai',type:'textarea'},
+    {id:'pitch',label:'Pitch against each competitor',q:'Har competitor ka naam + uska negative jo pitch karte ho (6 competitors hain to 6 ka)',type:'textarea'},
+    {id:'bookings',label:'Last bookings zyada kis location se',type:'text'},
+    {id:'footWeekend',label:'Average weekend site footfall',type:'text'},
+    {id:'footMonthly',label:'Total monthly average site footfall',type:'text'},
+    {id:'footRevisit',label:'7-day week footfall of customer revisit',type:'text'},
+    {id:'vtc',label:'Visit-to-closing ratio',q:'e.g. 10%',type:'text'},
+    {id:'tagging',label:'Tagging period (days)',type:'text'},
+    {id:'extension',label:'Extension — kitne din within tagging entry',type:'text'},
+    {id:'nego',label:'Negotiation scope for serious buyers (per unit)',q:'Hope dene ke liye — last final price nahi, hope dene ke liye',type:'textarea'},
+  ]},
+  {sec:'Sourcing & Sales Manager Contacts', fields:[
+    {id:'mgr1Name',label:'Contact 1 — name & role',type:'text'},
+    {id:'mgr1Phone',label:'Contact 1 — number',type:'tel'},
+    {id:'mgr2Name',label:'Contact 2 — name & role',type:'text'},
+    {id:'mgr2Phone',label:'Contact 2 — number',type:'tel'},
+    {id:'mgr3Name',label:'Contact 3 — name & role',type:'text'},
+    {id:'mgr3Phone',label:'Contact 3 — number',type:'tel'},
+  ]},
 ];
 
-// ---- render ----
-const form=document.getElementById('mapForm');
-let secNum=0;
-FORM.forEach(s=>{
-  secNum++;
-  const sec=document.createElement('div');
-  sec.className='section'+(s.rate?' rate':'');
-  let inner=`<div class="section-head"><div class="num">${secNum}</div><h2>${s.sec}</h2></div><div class="section-body">`;
-  s.fields.forEach(f=>{
-    const q=f.q?`<span class="q">${f.q}</span>`:'';
-    let control='';
-    if(f.type==='textarea'){
-      control=`<textarea id="${f.id}" data-label="${f.label}"></textarea>`;
-    }else if(f.type==='select'){
-      control=`<select id="${f.id}" data-label="${f.label}"><option value="">-- select --</option>`+
-        f.options.map(o=>`<option>${o}</option>`).join('')+`</select>`;
-    }else{
-      control=`<input id="${f.id}" type="${f.type}" data-label="${f.label}">`;
-    }
-    inner+=`<div class="field" data-fid="${f.id}"><label>${f.label}<span class="star">*</span>${q}</label>${control}<div class="errmsg">Yeh field bharo (ya NA likho)</div></div>`;
+/* ====================== COMMERCIAL (inferred) ====================== */
+const COMM=[
+  {sec:'Commercial — Basics', fields:[
+    {id:'c_projName',label:'Project Name',type:'text'},
+    {id:'c_builder',label:'Builder / Developer',type:'text'},
+    {id:'c_byName',label:'Aapka naam',type:'text'},
+    {id:'c_byPhone',label:'Aapka contact number',type:'tel'},
+    {id:'c_date',label:'Mapping date',type:'date'},
+  ]},
+  {sec:'Commercial — Unit Details', fields:[
+    {id:'c_unitTypes',label:'Unit types available',q:'Office / Retail / Showroom / Food court / Anchor',type:'textarea'},
+    {id:'c_carpet',label:'Carpet area range (sqft)',type:'textarea'},
+    {id:'c_floorPlate',label:'Floor plate size (sqft)',type:'text'},
+    {id:'c_frontage',label:'Frontage / visibility',type:'text'},
+    {id:'c_ceiling',label:'Floor-to-ceiling height',type:'text'},
+    {id:'c_parking',label:'Parking ratio',type:'text'},
+  ]},
+  {sec:'Commercial — Pricing', rate:true, fields:[
+    {id:'c_rateBasis',label:'Rate basis',type:'select',options:['Carpet','Built-up','Saleable / Super built-up']},
+    {id:'c_quoteRate',label:'Quoted rate (per sqft)',type:'text'},
+    {id:'c_dealRate',label:'Deal rate (per sqft)',type:'text'},
+    {id:'c_otherCharges',label:'Other charges',q:'GST, CAM, legal, stamp+reg',type:'textarea'},
+    {id:'c_leaseSale',label:'Sale / Lease / Both',q:'lease ho to rent/sqft',type:'text'},
+  ]},
+  {sec:'Commercial — Inventory & Location', fields:[
+    {id:'c_inventory',label:'Current available inventory',type:'textarea'},
+    {id:'c_reraDate',label:'RERA possession date',type:'text'},
+    {id:'c_location',label:'Location / area',type:'text'},
+    {id:'c_usp',label:'USP & catchment',type:'textarea'},
+    {id:'c_negatives',label:'Negative points + counter',type:'textarea'},
+    {id:'c_contacts',label:'Contact numbers (3)',type:'textarea'},
+  ]},
+];
+
+/* ====================== DYNAMIC STATE ====================== */
+const state={ bhkSel:{regular:[],refuge:[]}, variants:{}, vastu:{} };
+let vidc=1;
+function vkey(g,b){return g+'::'+b;}
+function ensureVar(g,b){const k=vkey(g,b);if(!state.variants[k])state.variants[k]=[{id:'v'+(vidc++)}];}
+
+/* ---------- variant card ---------- */
+function variantHTML(g,b,v,idx,total){
+  const rm=total>1?`<button type="button" class="rmvar" data-g="${g}" data-b="${b}" data-id="${v.id}">&times;</button>`:'';
+  const dry=v.dry||'';
+  const sel=(o)=>dry===o?'selected':'';
+  return `<div class="variant" data-id="${v.id}">
+    <div class="vh"><span>Variant ${idx+1}</span>${rm}</div>
+    <div class="vfield"><label>Carpet area (sqft)</label><input type="text" data-vg="${g}" data-vb="${b}" data-vid="${v.id}" data-vf="carpet" value="${v.carpet||''}"></div>
+    <div class="vfield"><label>No. of balconies (excluding dry)</label><input type="text" data-vg="${g}" data-vb="${b}" data-vid="${v.id}" data-vf="balc" value="${v.balc||''}"></div>
+    <div class="vfield"><label>Dry balcony</label><select data-vg="${g}" data-vb="${b}" data-vid="${v.id}" data-vf="dry">
+      <option value="">Select</option>
+      <option ${sel('Enclosed')}>Enclosed</option>
+      <option ${sel('Open to sky')}>Open to sky</option>
+      <option ${sel('Opens in duct')}>Opens in duct</option>
+      <option ${sel('No dry balcony')}>No dry balcony</option></select></div>
+    <div class="vfield"><label>Dry balcony se kitchen me dhoop aati hai?</label><select data-vg="${g}" data-vb="${b}" data-vid="${v.id}" data-vf="ksun">
+      <option value="">Select</option><option ${v.ksun==='Yes'?'selected':''}>Yes</option><option ${v.ksun==='No'?'selected':''}>No</option></select></div>
+    <div class="vfield"><label>Walking wardrobe available?</label><select data-vg="${g}" data-vb="${b}" data-vid="${v.id}" data-vf="ward">
+      <option value="">Select</option><option ${v.ward==='Yes'?'selected':''}>Yes</option><option ${v.ward==='No'?'selected':''}>No</option></select></div>
+  </div>`;
+}
+function bhkCardHTML(g,b){
+  const k=vkey(g,b),arr=state.variants[k]||[];
+  const vars=arr.map((v,i)=>variantHTML(g,b,v,i,arr.length)).join('');
+  return `<div class="bhkcard" data-bhk="${b}"><h4>${b}</h4>${vars}
+    <button type="button" class="addvar" data-g="${g}" data-b="${b}">+ Add another variant</button></div>`;
+}
+function renderGroup(g){
+  const wrap=document.getElementById(g==='regular'?'bhkSub':'refugeSub');
+  if(!wrap)return;
+  const sel=state.bhkSel[g]||[];
+  wrap.innerHTML = sel.length ? sel.map(b=>bhkCardHTML(g,b)).join('') :
+    '<p class="hint">'+(g==='regular'?'Upar se kam se kam ek BHK select karo.':'Refuge floor config ho to select karo (optional).')+'</p>';
+}
+
+/* ---------- BHK config section ---------- */
+function bhkSectionHTML(n){
+  const chips=BHK_OPTIONS.map(b=>`<label class="chip"><input type="checkbox" class="bhkChip" data-g="regular" value="${b}"><span>${b}</span></label>`).join('');
+  return `<div class="section"><div class="sec-head"><div class="n">Section ${n}</div><h2>BHK Configuration &amp; Variants</h2></div>
+    <div class="sec-body">
+      <div class="field" data-fid="bhkSel"><label>Available configurations<span class="star">*</span><span class="q">Multiple select karo. Har config ke andar carpet variants add kar sakte ho (e.g. 2BHK me 721 & 800 sqft).</span></label>
+        <div class="chips" data-g="regular">${chips}</div><div class="errmsg">Kam se kam ek BHK select karo</div></div>
+      <div class="subwrap" id="bhkSub"></div>
+    </div></div>`;
+}
+function refugeSectionHTML(n){
+  const chips=BHK_OPTIONS.map(b=>`<label class="chip"><input type="checkbox" class="bhkChip" data-g="refuge" value="${b}"><span>${b}</span></label>`).join('');
+  return `<div class="section"><div class="sec-head"><div class="n">Section ${n}</div><h2>Refuge Floors</h2></div>
+    <div class="sec-body">
+      <div class="field" data-fid="refugeFloors"><label>Refuge floors available on which floors<span class="star">*</span><span class="q">e.g. 8th, 16th, 24th. Nahi hai to NA.</span></label>
+        <input type="text" id="refugeFloors" data-label="Refuge floors on"><div class="errmsg">Bharo (ya NA)</div></div>
+      <div class="field" data-fid="refSel" data-opt="1"><label>Refuge floor configuration units<span class="q">e.g. 3BHK ko cut karke 2.5BHK banaya — to 2.5BHK select karo. Multiple allowed. Ye Vastu section me bhi count honge.</span></label>
+        <div class="chips" data-g="refuge">${chips}</div></div>
+      <div class="subwrap" id="refugeSub"></div>
+    </div></div>`;
+}
+
+/* ---------- MHADA ---------- */
+function mhadaSectionHTML(n){
+  return `<div class="section"><div class="sec-head"><div class="n">Section ${n}</div><h2>MHADA</h2></div>
+    <div class="sec-body">
+      <div class="field" data-fid="mhada"><label>MHADA<span class="star">*</span></label>
+        <select id="mhada" data-label="MHADA"><option value="">Select</option><option>MHADA available in society</option><option>MHADA not available in society</option></select>
+        <div class="errmsg">Select karo</div></div>
+      <div class="cond" id="mhadaYes">
+        <div class="field" data-fid="mhCount" data-opt="1"><label>Kitne MHADA units & size</label><input type="text" id="mhCount" data-label="MHADA count & size"></div>
+        <div class="field" data-fid="mhBuild" data-opt="1"><label>MHADA building height & area</label><input type="text" id="mhBuild" data-label="MHADA building height/area"></div>
+        <div class="field" data-fid="mhInside" data-opt="1"><label>Project ke andar aata hai ya bahar?</label><select id="mhInside" data-label="MHADA inside/outside"><option value="">Select</option><option>Inside project</option><option>Outside project</option></select></div>
+        <div class="field" data-fid="mhAme" data-opt="1"><label>MHADA wale humari amenities use kar sakte hain?</label><select id="mhAme" data-label="MHADA can use amenities"><option value="">Select</option><option>Yes</option><option>No</option></select></div>
+      </div>
+      <div class="cond" id="mhadaNo">
+        <div class="field" data-fid="mhInstead" data-opt="1"><label>MHADA nahi de rahe to kya de rahe ho</label><textarea id="mhInstead" data-label="Instead of MHADA"></textarea></div>
+      </div>
+    </div></div>`;
+}
+
+/* ---------- Location ---------- */
+function locationSectionHTML(n){
+  const regions=['Pimpri-Chinchwad / PCMC','Wakad / Hinjewadi','Baner / Balewadi / Pashan','Aundh','Kharadi / Wagholi',
+    'Hadapsar / Mundhwa','Magarpatta / Amanora','Koregaon Park / Kalyani Nagar','Akurdi / Nigdi / Chinchwad',
+    'Punawale / Tathawade / Ravet','Other (type below)'];
+  return `<div class="section"><div class="sec-head"><div class="n">Section ${n}</div><h2>Location &amp; Map</h2></div>
+    <div class="sec-body">
+      <div class="field" data-fid="locRegion"><label>Region / corridor / area<span class="star">*</span></label>
+        <select id="locRegion" data-label="Region/area"><option value="">Select</option>${regions.map(r=>`<option>${r}</option>`).join('')}</select><div class="errmsg">Select karo (ya NA)</div></div>
+      <div class="field" data-fid="locArea"><label>Locality / sub-area<span class="star">*</span></label><input id="locArea" type="text" data-label="Locality"><div class="errmsg">Bharo (ya NA)</div></div>
+      <div class="field" data-fid="locExact"><label>Exact project location<span class="star">*</span><span class="q">Jaise Google Maps pe likhoge</span></label>
+        <input id="locExact" type="text" data-label="Exact location"><div class="errmsg">Bharo (ya NA)</div>
+        <a href="#" class="btn-ghost" id="mapBtn" target="_blank" rel="noopener">&#128205; Google Maps pe verify karo</a>
+        <div class="api-note">Live Maps autocomplete dropdown ke liye Maps API key chahiye. Abhi ye button typed location seedha Maps pe khol deta hai.</div></div>
+      <div class="field" data-fid="locCurrent" data-opt="1"><label>Add current location<span class="q">Site pe khade ho to tap karo — Google Maps link auto aa jayega</span></label>
+        <button type="button" class="btn-ghost" id="curLocBtn">&#127757; Current location bhejo</button>
+        <input id="locCurrent" type="text" data-label="Current location link" readonly placeholder="Tap above to capture">
+        <div id="locOut"></div></div>
+    </div></div>`;
+}
+
+/* ---------- Community ---------- */
+function communitySectionHTML(n){
+  return `<div class="section"><div class="sec-head"><div class="n">Section ${n}</div><h2>Community Difference</h2></div>
+    <div class="sec-body">
+      <div class="field" data-fid="community"><label>Is this developer all-community friendly?<span class="star">*</span></label>
+        <select id="community" data-label="All-community friendly"><option value="">Select</option><option>Yes</option><option>No</option></select><div class="errmsg">Select karo</div>
+        <div class="infobox yes" id="commYes">Yes — is builder ke yahan sabhi tarah ki community ke logon ko ghar milta hai.</div>
+        <div class="infobox no" id="commNo">No — yahan kisi specific community ko ghar nahi diya jata. Neeche detail me likho taaki team galat lead pe time waste na kare.</div></div>
+      <div class="field" data-fid="commDetail"><label>Community note / detail<span class="star">*</span><span class="q">Restriction ho to specific likho; warna NA</span></label>
+        <input id="commDetail" type="text" data-label="Community note"><div class="errmsg">Bharo (ya NA)</div></div>
+    </div></div>`;
+}
+
+/* ---------- Vastu (per variant, regular + refuge) ---------- */
+function allVariants(){
+  const out=[];
+  ['regular','refuge'].forEach(g=>{
+    (state.bhkSel[g]||[]).forEach(b=>{
+      (state.variants[vkey(g,b)]||[]).forEach((v,i)=>{
+        const ca=v.carpet?(' · '+v.carpet+' sqft'):(' · Variant '+(i+1));
+        out.push({id:v.id,group:g,bhk:b,label:(g==='refuge'?'[Refuge] ':'')+b+ca});
+      });
+    });
   });
-  inner+=`</div>`;
-  sec.innerHTML=inner;
-  form.appendChild(sec);
+  return out;
+}
+function vastuCardHTML(v){
+  const d=state.vastu[v.id]||{};
+  return `<div class="bhkcard" data-vid="${v.id}"><h4>${v.label}</h4>
+    <div class="vfield"><label>Entrance facing</label><input type="text" data-vu="${v.id}" data-uf="entrance" value="${d.entrance||''}" placeholder="e.g. East / North-East"></div>
+    <div class="vfield"><label>Balcony facing + view</label><input type="text" data-vu="${v.id}" data-uf="balcony" value="${d.balcony||''}" placeholder="e.g. West (sunset), Military Garden facing"></div>
+    <div class="vfield"><label>View name / samne kya dikhta</label><input type="text" data-vu="${v.id}" data-uf="viewName" value="${d.viewName||''}" placeholder="e.g. garden, hills, skyline"></div>
+    <div class="vfield"><label>Bad views (jo customer avoid karte)</label><input type="text" data-vu="${v.id}" data-uf="badView" value="${d.badView||''}"></div>
+    <div class="vfield"><label>Counter for bad views</label><textarea data-vu="${v.id}" data-uf="counter">${d.counter||''}</textarea></div>
+  </div>`;
+}
+function vastuSectionHTML(n){
+  return `<div class="section"><div class="sec-head"><div class="n">Section ${n}</div><h2>Vastu &amp; Direction (per variant)</h2></div>
+    <div class="sec-body"><p class="hint">Upar jo BHK variants (regular + refuge) select kiye, har ek yahan apne aap aa jaata hai.</p>
+    <div class="subwrap" id="vastuSub"></div></div></div>`;
+}
+function renderVastu(){
+  const wrap=document.getElementById('vastuSub'); if(!wrap)return;
+  const vs=allVariants();
+  wrap.innerHTML = vs.length ? vs.map(vastuCardHTML).join('') : '<p class="hint">Pehle upar BHK Configuration select karo.</p>';
+}
+
+/* ====================== RENDER ENGINE ====================== */
+function renderLayout(layout,mount){
+  let n=1,h='';
+  layout.forEach(it=>{
+    if(it.custom){
+      if(it.custom==='bhk')h+=bhkSectionHTML(n++);
+      else if(it.custom==='refuge')h+=refugeSectionHTML(n++);
+      else if(it.custom==='mhada')h+=mhadaSectionHTML(n++);
+      else if(it.custom==='location')h+=locationSectionHTML(n++);
+      else if(it.custom==='community')h+=communitySectionHTML(n++);
+      else if(it.custom==='vastu')h+=vastuSectionHTML(n++);
+    }else{
+      h+=shell(n++,it.sec,it.fields.map(fieldHTML).join(''),it.rate);
+    }
+  });
+  mount.innerHTML=h;
+}
+
+/* mount */
+const resiWrap=document.getElementById('resiWrap');
+const commWrap=document.getElementById('commWrap');
+const ptype=`<div class="section"><div class="sec-head"><div class="n">Start</div><h2>Property Type</h2></div>
+  <div class="sec-body"><div class="field" style="border-bottom:0">
+    <label>Ye project kaunsa hai?<span class="q">Residential default. Commercial dabaoge to commercial form aayega.</span></label>
+    <div class="seg"><button type="button" id="pResi" class="on">Residential<span class="s">Default — main kaam</span></button><button type="button" id="pComm">Commercial<span class="s">Office / Retail</span></button></div>
+  </div></div></div>`;
+resiWrap.innerHTML=ptype+'<div id="resiSections"></div>';
+renderLayout(RESI,document.getElementById('resiSections'));
+renderLayout(COMM,commWrap);
+
+let PROP_TYPE='Residential';
+function setPropType(v){
+  PROP_TYPE=v;
+  document.getElementById('pResi').classList.toggle('on',v==='Residential');
+  document.getElementById('pComm').classList.toggle('on',v==='Commercial');
+  document.getElementById('resiSections').style.display=v==='Commercial'?'none':'block';
+  commWrap.style.display=v==='Commercial'?'block':'none';
+  saveDraft();
+}
+document.getElementById('pResi').addEventListener('click',()=>setPropType('Residential'));
+document.getElementById('pComm').addEventListener('click',()=>setPropType('Commercial'));
+
+const today=new Date().toISOString().slice(0,10);
+['date','c_date'].forEach(id=>{const el=document.getElementById(id);if(el)el.value=today;});
+
+/* ====================== EVENTS ====================== */
+document.addEventListener('change',e=>{
+  const t=e.target;
+  if(t.classList.contains('bhkChip')){
+    const g=t.dataset.g, b=t.value;
+    const arr=state.bhkSel[g];
+    if(t.checked){ if(!arr.includes(b))arr.push(b); ensureVar(g,b); }
+    else { state.bhkSel[g]=arr.filter(x=>x!==b); delete state.variants[vkey(g,b)]; }
+    renderGroup(g); renderVastu(); saveDraft();
+  }
+  if(t.id==='mhada'){
+    document.getElementById('mhadaYes').classList.toggle('show', t.value==='MHADA available in society');
+    document.getElementById('mhadaNo').classList.toggle('show', t.value==='MHADA not available in society');
+  }
+  if(t.id==='community'){
+    document.getElementById('commYes').classList.toggle('show',t.value==='Yes');
+    document.getElementById('commNo').classList.toggle('show',t.value==='No');
+  }
+  // safeguard: capture variant/vastu <select> values on change too
+  if(t.dataset.vid && t.dataset.vf){
+    const v=(state.variants[vkey(t.dataset.vg,t.dataset.vb)]||[]).find(x=>x.id===t.dataset.vid);
+    if(v){v[t.dataset.vf]=t.value;}
+  }
+  if(t.dataset.vu && t.dataset.uf){
+    state.vastu[t.dataset.vu]=state.vastu[t.dataset.vu]||{};
+    state.vastu[t.dataset.vu][t.dataset.uf]=t.value;
+  }
+  saveDraft();
+});
+document.addEventListener('click',e=>{
+  const t=e.target;
+  if(t.classList.contains('addvar')){
+    const g=t.dataset.g,b=t.dataset.b;
+    state.variants[vkey(g,b)].push({id:'v'+(vidc++)});
+    renderGroup(g); renderVastu(); saveDraft();
+  }
+  if(t.classList.contains('rmvar')){
+    const g=t.dataset.g,b=t.dataset.b,id=t.dataset.id,k=vkey(g,b);
+    state.variants[k]=state.variants[k].filter(v=>v.id!==id);
+    delete state.vastu[id];
+    renderGroup(g); renderVastu(); saveDraft();
+  }
+  if(t.id==='mapBtn'){
+    e.preventDefault();
+    const q=[(document.getElementById('locExact')||{}).value,(document.getElementById('locArea')||{}).value,'Pune'].filter(Boolean).join(' ');
+    window.open('https://www.google.com/maps/search/?api=1&query='+encodeURIComponent(q||'Pune'),'_blank');
+  }
+  if(t.id==='curLocBtn'){
+    e.preventDefault();
+    const out=document.getElementById('locOut');
+    if(!navigator.geolocation){ out.textContent='Is device pe location support nahi hai.'; return; }
+    out.textContent='Location le rahe hain...';
+    navigator.geolocation.getCurrentPosition(p=>{
+      const link='https://www.google.com/maps?q='+p.coords.latitude+','+p.coords.longitude;
+      document.getElementById('locCurrent').value=link;
+      out.innerHTML='&#10003; <a href="'+link+'" target="_blank" rel="noopener">'+link+'</a>';
+      saveDraft();
+    },()=>{ out.textContent='Location nahi mili — permission allow karo ya manually exact location bharo.'; },{enableHighAccuracy:true,timeout:10000});
+  }
+});
+document.addEventListener('input',e=>{
+  const t=e.target;
+  // variant fields
+  if(t.dataset.vid && t.dataset.vf){
+    const k=vkey(t.dataset.vg,t.dataset.vb);
+    const v=(state.variants[k]||[]).find(x=>x.id===t.dataset.vid);
+    if(v){ v[t.dataset.vf]=t.value;
+      if(t.dataset.vf==='carpet'){ const card=document.querySelector('#vastuSub .bhkcard[data-vid="'+t.dataset.vid+'"] h4');
+        if(card){ const lbl=allVariants().find(x=>x.id===t.dataset.vid); if(lbl)card.textContent=lbl.label; } } }
+  }
+  // vastu fields
+  if(t.dataset.vu && t.dataset.uf){
+    state.vastu[t.dataset.vu]=state.vastu[t.dataset.vu]||{};
+    state.vastu[t.dataset.vu][t.dataset.uf]=t.value;
+  }
+  const f=t.closest&&t.closest('.field');
+  if(f&&(t.value||'').trim()!=='')f.classList.remove('invalid');
+  saveDraft();
 });
 
-// ---- collect all field ids ----
-const ALL=[];
-FORM.forEach(s=>s.fields.forEach(f=>ALL.push(f)));
-
-function getVal(id){return (document.getElementById(id).value||'').trim();}
-
+/* ====================== VALIDATION ====================== */
+function gv(el){return (el.value||'').trim();}
+function activeWrap(){return PROP_TYPE==='Commercial'?commWrap:document.getElementById('resiSections');}
+function sections(){return [...activeWrap().querySelectorAll('.section')];}
+function vis(el){return el.offsetParent!==null;}
 function validate(){
-  let firstBad=null, missing=0;
-  ALL.forEach(f=>{
-    const wrap=document.querySelector(`[data-fid="${f.id}"]`);
-    if(getVal(f.id)===''){
-      wrap.classList.add('invalid'); missing++;
-      if(!firstBad) firstBad=wrap;
-    }else{
-      wrap.classList.remove('invalid');
+  let firstBad=null,missing=0;
+  sections().forEach(sec=>{
+    if(!vis(sec))return;
+    const chips=sec.querySelector('.chips[data-g="regular"]');
+    if(chips){
+      const f=chips.closest('.field');
+      if(state.bhkSel.regular.length===0){f.classList.add('invalid');missing++;if(!firstBad)firstBad=f;}
+      else f.classList.remove('invalid');
     }
+    sec.querySelectorAll('.field > input,.field > select,.field > textarea').forEach(el=>{
+      const f=el.closest('.field');
+      if(!f||f.dataset.opt||!vis(el))return;
+      if(gv(el)===''){f.classList.add('invalid');missing++;if(!firstBad)firstBad=f;}
+      else f.classList.remove('invalid');
+    });
   });
   return {firstBad,missing};
 }
 
-// live: clear error on input
-form.addEventListener('input',e=>{
-  const wrap=e.target.closest('.field');
-  if(wrap && e.target.value.trim()!=='') wrap.classList.remove('invalid');
-});
-
-function buildMessage(){
+/* ====================== MESSAGE ====================== */
+function variantsBlock(g){
   const L=[];
-  L.push("*PROPBILLION — PROJECT MAPPING*");
-  L.push("———————————————");
-  FORM.forEach(s=>{
-    L.push("");
-    L.push("*— "+s.sec.toUpperCase()+" —*");
-    s.fields.forEach(f=>{
-      L.push("*"+f.label+":* "+getVal(f.id));
+  (state.bhkSel[g]||[]).forEach(b=>{
+    (state.variants[vkey(g,b)]||[]).forEach((v,i)=>{
+      const parts=[];
+      if(v.carpet)parts.push(v.carpet+' sqft');
+      if(v.balc)parts.push(v.balc+' balc(excl dry)');
+      if(v.dry)parts.push('Dry: '+v.dry);
+      if(v.ksun)parts.push('Kitchen sun: '+v.ksun);
+      if(v.ward)parts.push('Wardrobe: '+v.ward);
+      L.push('   • '+b+' V'+(i+1)+': '+(parts.length?parts.join(' | '):'(blank)'));
     });
   });
-  L.push("");
-  L.push("———————————————");
-  L.push("_Submitted via PropBillion mapping form_");
-  return L.join("\n");
+  return L;
+}
+function collectSection(sec){
+  const out=[];
+  // chips summary
+  sec.querySelectorAll('.chips[data-g]').forEach(ch=>{
+    const g=ch.dataset.g;
+    out.push('*'+(g==='refuge'?'Refuge config':'BHK Configuration')+':* '+((state.bhkSel[g]||[]).join(', ')||'NA'));
+  });
+  // plain fields
+  sec.querySelectorAll('.field > input[data-label],.field > select[data-label],.field > textarea[data-label]').forEach(el=>{
+    if(!vis(el))return;
+    out.push('*'+el.dataset.label+':* '+(gv(el)||'NA'));
+  });
+  const ci=sec.querySelector('.infobox.show'); if(ci)out.push('_'+ci.textContent.trim()+'_');
+  return out;
+}
+function buildMessage(){
+  const L=['*PROPBILLION — PROJECT MAPPING*','*Property Type:* '+PROP_TYPE,'———————————————'];
+  if(PROP_TYPE==='Residential'){
+    sections().forEach(sec=>{
+      if(!vis(sec))return;
+      const h=sec.querySelector('.sec-head h2'); const title=h?h.textContent:'';
+      if(title==='Property Type')return;
+      const lines=collectSection(sec);
+      if(title.indexOf('BHK Configuration')>-1){ lines.push(...variantsBlock('regular')); }
+      if(title==='Refuge Floors'){ lines.push(...variantsBlock('refuge')); }
+      if(title.indexOf('Vastu')>-1){
+        allVariants().forEach(v=>{ const d=state.vastu[v.id]||{};
+          lines.push('  *'+v.label+':*');
+          ['entrance:Entrance','balcony:Balcony+view','viewName:View','badView:Bad views','counter:Counter'].forEach(p=>{
+            const [k,lab]=p.split(':'); lines.push('   - '+lab+': '+(d[k]||'NA')); });
+        });
+      }
+      if(lines.length){ L.push(''); L.push('*— '+title.toUpperCase()+' —*'); lines.forEach(x=>L.push(x)); }
+    });
+  }else{
+    sections().forEach(sec=>{
+      if(!vis(sec))return; const h=sec.querySelector('.sec-head h2');
+      const lines=collectSection(sec);
+      if(lines.length){ L.push(''); L.push('*— '+(h?h.textContent.toUpperCase():'')+' —*'); lines.forEach(x=>L.push(x)); }
+    });
+  }
+  L.push('','———————————————','_Submitted via PropBillion mapping form_');
+  return L.join('\n');
 }
 
+/* ====================== SUBMIT / COPY ====================== */
 function doSubmit(){
   const {firstBad,missing}=validate();
-  const status=document.getElementById('status');
-  if(missing>0){
-    status.innerHTML=`<b>${missing} field${missing>1?'s':''} baaki ${missing>1?'hain':'hai'}</b> — bhar ke phir submit karo`;
-    if(firstBad){firstBad.scrollIntoView({behavior:'smooth',block:'center'});
-      const el=firstBad.querySelector('input,select,textarea'); if(el) el.focus({preventScroll:true});}
-    return;
-  }
-  if(WHATSAPP_NUMBER.includes('X')){
-    status.innerHTML=`<b>Setup pending:</b> form ke code mein WHATSAPP_NUMBER set nahi hua`;
-    return;
-  }
+  const st=document.getElementById('status');
+  if(missing>0){ st.innerHTML=`<b>${missing} field baaki</b> — bhar ke phir submit`;
+    if(firstBad){firstBad.scrollIntoView({behavior:'smooth',block:'center'});const el=firstBad.querySelector('input,select,textarea');if(el)el.focus({preventScroll:true});}
+    return; }
   const msg=buildMessage();
   const url='https://wa.me/'+WHATSAPP_NUMBER+'?text='+encodeURIComponent(msg);
-  window.lastMsg=msg; window.lastUrl=url;
-  window.open(url,'_blank');
-  document.getElementById('mapForm').style.display='none';
+  window.lastMsg=msg; window.lastUrl=url; window.open(url,'_blank');
+  try{localStorage.removeItem(DRAFT_KEY);}catch(e){}
+  document.getElementById('appForm').style.display='none';
   document.getElementById('bar').style.display='none';
   document.getElementById('done').classList.add('show');
   window.scrollTo({top:0,behavior:'smooth'});
 }
-
 function copyDetails(){
   const {missing}=validate();
-  if(missing>0){document.getElementById('status').innerHTML=`<b>${missing} field baaki</b> — copy se pehle sab bharo`;return;}
-  const msg=buildMessage();
-  navigator.clipboard.writeText(msg).then(()=>{
-    document.getElementById('status').textContent='Copy ho gaya — WhatsApp mein paste karke bhej do';
-  });
+  if(missing>0){document.getElementById('status').innerHTML=`<b>${missing} field baaki</b> — copy se pehle bharo`;return;}
+  navigator.clipboard.writeText(buildMessage()).then(()=>{document.getElementById('status').textContent='Copy ho gaya — WhatsApp me paste karke bhejo';});
 }
-
 document.getElementById('submitBtn').addEventListener('click',doSubmit);
 document.getElementById('copyBtn').addEventListener('click',copyDetails);
 document.getElementById('reopen').addEventListener('click',()=>{if(window.lastUrl)window.open(window.lastUrl,'_blank');});
 document.getElementById('copy2').addEventListener('click',()=>{if(window.lastMsg)navigator.clipboard.writeText(window.lastMsg);});
 
-// default date = today
-document.getElementById('date').value=new Date().toISOString().slice(0,10);
+/* ====================== AUTOSAVE ====================== */
+let saveT=null;
+function snapshot(){
+  const st={};
+  document.querySelectorAll('#appForm input,#appForm select,#appForm textarea').forEach(el=>{if(el.id)st[el.id]=el.value;});
+  return {propType:PROP_TYPE,statics:st,bhkSel:state.bhkSel,variants:state.variants,vastu:state.vastu,vidc};
+}
+function saveDraft(){
+  clearTimeout(saveT);
+  saveT=setTimeout(()=>{try{localStorage.setItem(DRAFT_KEY,JSON.stringify(snapshot()));
+    const t=document.getElementById('saved');t.classList.add('show');setTimeout(()=>t.classList.remove('show'),1100);}catch(e){}},400);
+}
+function restoreDraft(){
+  let s=null; try{s=JSON.parse(localStorage.getItem(DRAFT_KEY)||'null');}catch(e){}
+  if(!s)return;
+  if(s.propType)setPropType(s.propType);
+  state.bhkSel=s.bhkSel||{regular:[],refuge:[]}; state.variants=s.variants||{}; state.vastu=s.vastu||{}; if(s.vidc)vidc=s.vidc;
+  ['regular','refuge'].forEach(g=>{
+    (state.bhkSel[g]||[]).forEach(b=>{const c=[...document.querySelectorAll('.bhkChip')].find(x=>x.dataset.g===g&&x.value===b);if(c)c.checked=true;});
+    renderGroup(g);
+  });
+  renderVastu();
+  if(s.statics)Object.entries(s.statics).forEach(([id,val])=>{const el=document.getElementById(id);if(el&&val!=null)el.value=val;});
+  ['mhada','community'].forEach(id=>{const el=document.getElementById(id);if(el&&el.value)el.dispatchEvent(new Event('change',{bubbles:true}));});
+}
+restoreDraft();
 </script>
 </body>
 </html>
