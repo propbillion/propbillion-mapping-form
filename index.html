@@ -184,17 +184,15 @@ const RESI=[
     {id:'lifts',label:'Lifts per tower',type:'text'},
     {id:'constTech',label:'Construction technology',type:'select',options:['Mivan','Traditional','Semi-Mivan']},
   ]},
-  {sec:'Units & Carpet (overview)', fields:[
-    {id:'config',label:'Configurations available (overview)',q:'e.g. 2 / 3 / 4 BHK',type:'text'},
-    {id:'carpet',label:'RERA carpet area note',q:'Detailed BHK-wise neeche variants me bharna hai',type:'textarea'},
-    {id:'flooring',label:'Flooring — floor par kya de rahe ho',q:'e.g. 800x800 vitrified, Italian marble in living',type:'text'},
-  ]},
   {custom:'bhk'},
   {custom:'refuge'},
   {sec:'Parking — Type', fields:[
     {id:'parkUnit',label:'Parking per unit type',q:'e.g. 3BHK 2, 4BHK 3',type:'textarea'},
-    {id:'parkType',label:'Parking type',q:'tandem / stack / side-by-side / mechanical',type:'text'},
-    {id:'parkFlex',label:'Allocation flexibility',q:'pre-allotted / selectable / case-to-case',type:'text'},
+    {id:'parkType',label:'Parking type',type:'select',options:['Tandem','Stack','Mechanical','Side-by-side','1 Tandem + 1 Stack','1 Tandem + 1 Mechanical','1 Side-by-side + 1 Mechanical','1 Side-by-side + 1 Stack','2 Tandem','2 Stack','Other (type below)']},
+    {id:'parkTypeOther',label:'Other parking combination',q:'Sirf agar upar "Other" select kiya',type:'text',opt:true},
+    {id:'parkFlex',label:'Allocation flexibility',type:'select',options:['Pre-allotted','Selectable','Case to case']},
+    {id:'parkExtra',label:'Builder extra parking deta hai extra price pe?',type:'select',options:['Yes','No']},
+    {id:'parkPrice',label:'Extra parking price (incl. GST)',q:'Agar yes — ek parking ka price',type:'text'},
   ]},
   {sec:'Parking — Levels', fields:[
     {id:'parkLevels',label:'Parking levels',q:'e.g. 3 basement + 1 ground + 1 upper ground + podium',type:'textarea'},
@@ -204,8 +202,6 @@ const RESI=[
     {id:'quoteRate',label:'Quoted rate (per sqft)',type:'text'},
     {id:'dealRate',label:'Deal / landing rate (per sqft)',type:'text'},
     {id:'floorRise',label:'Floor-rise charge + kis floor se',type:'text'},
-    {id:'otherCharges',label:'Other charges',q:'GST, club, infra, LEGAL charge, koi bhi hidden / extra charge — sab',type:'textarea'},
-    {id:'allIn',label:'All-in cost — config wise (Cr)',type:'textarea'},
     {id:'payment',label:'Payment schedule',q:'CLP / time-linked, slab break-up',type:'textarea'},
   ]},
   {sec:'Maintenance', fields:[
@@ -259,6 +255,7 @@ const RESI=[
   {custom:'location'},
   {sec:'Specifications', fields:[
     {id:'specs',label:'Specifications used in home',q:'Brands + kitchen + bathroom + doors/windows + fittings',type:'textarea'},
+    {id:'flooring',label:'Flooring — floor par kya de rahe ho',q:'e.g. 800x800 vitrified, Italian marble in living',type:'text'},
   ]},
   {sec:'Amenities', fields:[
     {id:'totalAme',label:'Total number of amenities in project',type:'text'},
@@ -266,10 +263,6 @@ const RESI=[
     {id:'ameExtra',label:'Extra amenities',q:'(very high USP amenities — e.g. mandir in society, plunge pool in homes)',type:'textarea'},
   ]},
   {custom:'vastu'},
-  {sec:'Balcony & Dry Balcony — View & Duct', fields:[
-    {id:'balconyView',label:'Balcony view & blockage',q:'View kahan ka; block ho raha kya; kitna door warna infinite open',type:'textarea'},
-    {id:'dryView',label:'Dry balcony — open / duct + view',q:'Duct me khulti ya open-to-sky; open to sky to view kya; blockage distance',type:'textarea'},
-  ]},
   {sec:'Negative Points & Counter', fields:[
     {id:'negatives',label:'Genuine negative points + our counter',q:'Jo customer/competitor bolke deal todte hain + ready counter',type:'textarea'},
   ]},
@@ -365,6 +358,9 @@ function variantHTML(g,b,v,idx,total){
       <option value="">Select</option><option ${v.ksun==='Yes'?'selected':''}>Yes</option><option ${v.ksun==='No'?'selected':''}>No</option></select></div>
     <div class="vfield"><label>Walking wardrobe available?</label><select data-vg="${g}" data-vb="${b}" data-vid="${v.id}" data-vf="ward">
       <option value="">Select</option><option ${v.ward==='Yes'?'selected':''}>Yes</option><option ${v.ward==='No'?'selected':''}>No</option></select></div>
+    <div class="vfield"><label>All-inclusive price (quoted)</label><input type="text" data-vg="${g}" data-vb="${b}" data-vid="${v.id}" data-vf="priceAll" value="${v.priceAll||''}" placeholder="e.g. 1.95 Cr all-in"></div>
+    <div class="vfield"><label>Builder commitment price</label><input type="text" data-vg="${g}" data-vb="${b}" data-vid="${v.id}" data-vf="priceCommit" value="${v.priceCommit||''}"></div>
+    <div class="vfield"><label>Rock bottom (tentative) price</label><input type="text" data-vg="${g}" data-vb="${b}" data-vid="${v.id}" data-vf="priceBottom" value="${v.priceBottom||''}" placeholder="tentative — hope dene ke liye"></div>
   </div>`;
 }
 function bhkCardHTML(g,b){
@@ -477,6 +473,8 @@ function vastuCardHTML(v){
     <div class="vfield"><label>View name / samne kya dikhta</label><input type="text" data-vu="${v.id}" data-uf="viewName" value="${d.viewName||''}" placeholder="e.g. garden, hills, skyline"></div>
     <div class="vfield"><label>Bad views (jo customer avoid karte)</label><input type="text" data-vu="${v.id}" data-uf="badView" value="${d.badView||''}"></div>
     <div class="vfield"><label>Counter for bad views</label><textarea data-vu="${v.id}" data-uf="counter">${d.counter||''}</textarea></div>
+    <div class="vfield"><label>Balcony view & blockage</label><textarea data-vu="${v.id}" data-uf="balconyView" placeholder="View kahan ka; block ho raha kya; kitna door warna infinite open">${d.balconyView||''}</textarea></div>
+    <div class="vfield"><label>Dry balcony — open / duct + view</label><textarea data-vu="${v.id}" data-uf="dryView" placeholder="Duct me khulti ya open-to-sky; open to sky to view kya; blockage distance">${d.dryView||''}</textarea></div>
   </div>`;
 }
 function vastuSectionHTML(n){
@@ -534,10 +532,17 @@ document.getElementById('pComm').addEventListener('click',()=>setPropType('Comme
 
 const today=new Date().toISOString().slice(0,10);
 ['date','c_date'].forEach(id=>{const el=document.getElementById(id);if(el)el.value=today;});
+function toggleParkOther(){
+  const sel=document.getElementById('parkType'), other=document.getElementById('parkTypeOther');
+  if(!sel||!other)return;
+  other.closest('.field').style.display = sel.value==='Other (type below)' ? 'block':'none';
+}
+toggleParkOther();
 
 /* ====================== EVENTS ====================== */
 document.addEventListener('change',e=>{
   const t=e.target;
+  if(t.id==='parkType') toggleParkOther();
   if(t.classList.contains('bhkChip')){
     const g=t.dataset.g, b=t.value;
     const arr=state.bhkSel[g];
@@ -651,6 +656,9 @@ function variantsBlock(g){
       if(v.dry)parts.push('Dry: '+v.dry);
       if(v.ksun)parts.push('Kitchen sun: '+v.ksun);
       if(v.ward)parts.push('Wardrobe: '+v.ward);
+      if(v.priceAll)parts.push('All-in: '+v.priceAll);
+      if(v.priceCommit)parts.push('Commit: '+v.priceCommit);
+      if(v.priceBottom)parts.push('Rock-bottom: '+v.priceBottom);
       L.push('   • '+b+' V'+(i+1)+': '+(parts.length?parts.join(' | '):'(blank)'));
     });
   });
@@ -684,7 +692,7 @@ function buildMessage(){
       if(title.indexOf('Vastu')>-1){
         allVariants().forEach(v=>{ const d=state.vastu[v.id]||{};
           lines.push('  *'+v.label+':*');
-          ['entrance:Entrance','balcony:Balcony+view','viewName:View','badView:Bad views','counter:Counter'].forEach(p=>{
+          ['entrance:Entrance','balcony:Balcony+view','viewName:View','badView:Bad views','counter:Counter','balconyView:Balcony view/blockage','dryView:Dry balcony view/duct'].forEach(p=>{
             const [k,lab]=p.split(':'); lines.push('   - '+lab+': '+(d[k]||'NA')); });
         });
       }
@@ -751,6 +759,7 @@ function restoreDraft(){
   renderVastu();
   if(s.statics)Object.entries(s.statics).forEach(([id,val])=>{const el=document.getElementById(id);if(el&&val!=null)el.value=val;});
   ['mhada','community'].forEach(id=>{const el=document.getElementById(id);if(el&&el.value)el.dispatchEvent(new Event('change',{bubbles:true}));});
+  toggleParkOther();
 }
 restoreDraft();
 </script>
