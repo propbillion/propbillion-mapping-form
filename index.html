@@ -126,6 +126,19 @@
     font-size:36px;margin:0 auto 20px}
   .done h2{font-size:28px;font-weight:700;letter-spacing:-.02em;margin-bottom:10px}
   .done p{color:var(--soft);max-width:430px;margin:0 auto 20px}
+
+  /* clear confirm modal */
+  .modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.45);z-index:200;align-items:flex-end;justify-content:center}
+  .modal-overlay.show{display:flex}
+  .modal-box{background:#fff;border-radius:22px 22px 0 0;padding:28px 22px 38px;width:100%;max-width:480px;text-align:center;
+    animation:slideUp .22s ease}
+  @keyframes slideUp{from{transform:translateY(100%)}to{transform:translateY(0)}}
+  .modal-box h3{font-size:20px;font-weight:700;margin-bottom:8px;letter-spacing:-.02em}
+  .modal-box p{font-size:14px;color:var(--soft);margin-bottom:22px}
+  .modal-btns{display:flex;flex-direction:column;gap:10px}
+  .modal-btns button{border:0;border-radius:14px;padding:15px;font:inherit;font-size:16px;font-weight:600;cursor:pointer}
+  .modal-confirm{background:var(--err);color:#fff}
+  .modal-cancel{background:var(--bg2);color:var(--ink)}
 </style>
 </head>
 <body>
@@ -160,6 +173,18 @@
     <button class="btn" id="reopen" type="button">WhatsApp dobara kholo</button><br><br>
     <button class="btn alt" id="copy2" type="button">Copy Details</button><br><br>
     <button class="btn alt" id="fillMore" type="button">&#9998; Wapas jaake aur fill karo</button>
+  </div>
+</div>
+
+<!-- Clear draft confirm modal -->
+<div class="modal-overlay" id="clearModal">
+  <div class="modal-box">
+    <h3>Pura data clear kar dein?</h3>
+    <p>Abhi tak jo bhi bhara hai — sab delete ho jaayega. Yeh wapas nahi milega.</p>
+    <div class="modal-btns">
+      <button class="modal-confirm" id="clearConfirmBtn">Haan, clear karo</button>
+      <button class="modal-cancel" id="clearCancelBtn">Nahi, wapas jaao</button>
+    </div>
   </div>
 </div>
 
@@ -684,10 +709,25 @@ document.addEventListener('click',e=>{
     },()=>{ out.textContent='Location nahi mili — permission allow karo.'; },{enableHighAccuracy:true,timeout:10000});
   }
   if(t.id==='clearDraftBtn'){
-    if(confirm('Pura draft clear ho jaayega. Pakka?')){
-      try{localStorage.removeItem(DRAFT_KEY);}catch(e){}
-      location.reload();
-    }
+    document.getElementById('clearModal').classList.add('show');
+  }
+  if(t.id==='clearCancelBtn'){
+    document.getElementById('clearModal').classList.remove('show');
+  }
+  if(t.id==='clearConfirmBtn'){
+    // clear all known keys
+    try{
+      localStorage.removeItem(SAVE_KEY);
+      localStorage.removeItem(DRAFT_KEY);
+      // also remove any v3 key
+      localStorage.removeItem('propbillion_map_draft_v3');
+    }catch(e){}
+    document.getElementById('clearModal').classList.remove('show');
+    location.reload();
+  }
+  // close modal on overlay tap
+  if(t.id==='clearModal'){
+    document.getElementById('clearModal').classList.remove('show');
   }
   if(t.id==='fillMore'){
     document.getElementById('done').classList.remove('show');
